@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>نظام مقارنة المخزون الاحترافي</title>
 <link rel="manifest" href="manifest-comparison.json">
-<meta name="theme-color" content="#0a0e1a">
+<meta name="theme-color" content="#f8fafc" id="themeColorMeta">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,44 +14,96 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0e1a;
-  --bg2:#111827;
-  --bg3:#1a2234;
-  --bg4:#1e2a40;
-  --border:#2a3a55;
-  --border2:#3a4f72;
-  --text:#e8edf5;
-  --text2:#8fa3c0;
-  --text3:#5a7090;
-  --accent:#3b7bf5;
-  --accent2:#2563eb;
-  --green:#22c55e;
-  --red:#ef4444;
-  --yellow:#f59e0b;
-  --orange:#f97316;
-  --purple:#a855f7;
-  --cyan:#06b6d4;
+  --bg:#f8fafc;
+  --bg2:#ffffff;
+  --bg3:#eef4ff;
+  --bg4:#ddeafe;
+  --border:#d7e3f4;
+  --border2:#b8cef0;
+  --text:#0f172a;
+  --text2:#334155;
+  --text3:#64748b;
+  --accent:#2563eb;
+  --accent2:#1d4ed8;
+  --green:#16a34a;
+  --red:#dc2626;
+  --yellow:#d97706;
+  --orange:#ea580c;
+  --purple:#7c3aed;
+  --cyan:#0891b2;
+  --shadow:0 18px 45px rgba(37,99,235,0.12);
+  --bg-soft:linear-gradient(135deg,#f8fbff 0%,#eef6ff 48%,#fdf2ff 100%);
+  --card-glow:0 8px 30px rgba(59,130,246,0.12);
   --font:'IBM Plex Sans Arabic',sans-serif;
   --mono:'IBM Plex Mono',monospace;
   --radius:8px;
   --radius2:12px;
   --radius3:16px;
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
 }
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+body.theme-dark{
+  --bg:#08101f;
+  --bg2:#101827;
+  --bg3:#182235;
+  --bg4:#22314a;
+  --border:#2c3d5a;
+  --border2:#426089;
+  --text:#e5eefb;
+  --text2:#a8bddb;
+  --text3:#7288a8;
+  --accent:#4f8cff;
+  --accent2:#2f6fe9;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --orange:#fb923c;
+  --purple:#a855f7;
+  --cyan:#22d3ee;
+  --shadow:0 18px 45px rgba(0,0,0,0.35);
+  --bg-soft:linear-gradient(135deg,#08101f 0%,#0d1728 55%,#111c30 100%);
+  --card-glow:0 12px 30px rgba(0,0,0,0.24);
+}
+body.theme-glass{
+  --bg:#eaf4ff;
+  --bg2:rgba(255,255,255,0.48);
+  --bg3:rgba(255,255,255,0.34);
+  --bg4:rgba(255,255,255,0.2);
+  --border:rgba(255,255,255,0.55);
+  --border2:rgba(99,102,241,0.36);
+  --text:#0f172a;
+  --text2:#334155;
+  --text3:#64748b;
+  --accent:#7c3aed;
+  --accent2:#6d28d9;
+  --green:#16a34a;
+  --red:#dc2626;
+  --yellow:#ca8a04;
+  --orange:#ea580c;
+  --purple:#9333ea;
+  --cyan:#0891b2;
+  --shadow:0 24px 60px rgba(114,88,255,0.18);
+  --bg-soft:radial-gradient(circle at top right,rgba(255,255,255,0.9),rgba(216,233,255,0.7) 30%,rgba(224,210,255,0.55) 60%,rgba(201,245,255,0.65) 100%);
+  --card-glow:0 18px 45px rgba(124,58,237,0.14);
+}
+html,body{min-height:100%}
+body{font-family:var(--font);background:var(--bg-soft);background-attachment:fixed;color:var(--text);min-height:100vh;font-size:14px;transition:background .3s ease,color .3s ease}
 .app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
-.sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar,.main-header,.chart-card,.report-section,.report-header,.stat-card,.period-item,.upload-zone,.filters-bar,.formula-bar,.compare-panel,.notif,.alert-item,.report-stat{transition:all .25s ease}
+.sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--card-glow)}
 .main{overflow:hidden}
 .sidebar-header{padding:20px;border-bottom:1px solid var(--border);background:var(--bg3)}
 .logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 10px 20px rgba(37,99,235,.18)}
 .logo-text{font-size:15px;font-weight:700;color:var(--text)}
 .logo-sub{font-size:11px;color:var(--text3)}
 .version{font-size:10px;background:var(--bg4);color:var(--text3);padding:2px 8px;border-radius:20px;border:1px solid var(--border);display:inline-block;margin-top:6px}
 .sidebar-section{padding:16px;border-bottom:1px solid var(--border)}
 .section-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.theme-switcher{display:flex;gap:6px;flex-wrap:wrap}
+.theme-btn{flex:1;min-width:80px;padding:9px 10px;border-radius:12px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:var(--font);font-size:11px;font-weight:600;transition:all .2s ease}
+.theme-btn:hover{transform:translateY(-1px);border-color:var(--accent)}
+.theme-btn.active{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;border-color:transparent;box-shadow:0 10px 25px rgba(37,99,235,.18)}
 .upload-zone{border:2px dashed var(--border2);border-radius:var(--radius2);padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--bg3)}
-.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(59,123,245,0.05)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:color-mix(in srgb,var(--bg3) 75%, white 25%);transform:translateY(-1px)}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .upload-icon{font-size:24px;margin-bottom:8px}
 .upload-text{font-size:12px;color:var(--text2);line-height:1.5}
@@ -59,42 +111,42 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .upload-form{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .form-row{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:11px;color:var(--text2)}
-.form-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:100%;transition:border 0.2s}
-.form-input:focus{outline:none;border-color:var(--accent)}
-.form-select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:100%;transition:border 0.2s;cursor:pointer}
+.form-input{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:100%;transition:border 0.2s,box-shadow .2s,background .2s}
+.form-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
+.form-select{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:100%;transition:border 0.2s;cursor:pointer}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius);border:none;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:500;transition:all 0.15s}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent2)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;box-shadow:0 10px 24px rgba(99,102,241,.22)}
+.btn-primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
 .btn-sm{padding:5px 10px;font-size:11px}
-.btn-danger{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
-.btn-danger:hover{background:rgba(239,68,68,0.25)}
+.btn-danger{background:color-mix(in srgb,var(--red) 12%, transparent);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 28%, transparent)}
+.btn-danger:hover{background:color-mix(in srgb,var(--red) 18%, transparent)}
 .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
 .btn-ghost:hover{background:var(--bg4)}
 .btn-full{width:100%;justify-content:center}
 .periods-list{display:flex;flex-direction:column;gap:6px}
 .period-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.15s;position:relative}
-.period-item:hover{border-color:var(--border2)}
-.period-item.active{border-color:var(--accent);background:rgba(59,123,245,0.08)}
-.period-item.base{border-color:var(--green);background:rgba(34,197,94,0.06)}
-.period-item.current{border-color:var(--purple);background:rgba(168,85,247,0.06)}
+.period-item:hover{border-color:var(--border2);transform:translateY(-1px)}
+.period-item.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%, var(--bg3))}
+.period-item.base{border-color:var(--green);background:color-mix(in srgb,var(--green) 7%, var(--bg3))}
+.period-item.current{border-color:var(--purple);background:color-mix(in srgb,var(--purple) 7%, var(--bg3))}
 .period-badge{font-size:9px;padding:2px 6px;border-radius:20px;font-weight:600}
-.badge-base{background:rgba(34,197,94,0.2);color:var(--green)}
-.badge-current{background:rgba(168,85,247,0.2);color:var(--purple)}
+.badge-base{background:color-mix(in srgb,var(--green) 20%, transparent);color:var(--green)}
+.badge-current{background:color-mix(in srgb,var(--purple) 20%, transparent);color:var(--purple)}
 .period-info{flex:1;min-width:0}
 .period-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .period-meta{font-size:10px;color:var(--text3);margin-top:1px}
 .period-actions{display:flex;gap:4px;opacity:0;transition:opacity 0.15s}
 .period-item:hover .period-actions{opacity:1}
 .icon-btn{width:24px;height:24px;border-radius:4px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--bg4);color:var(--text2);transition:all 0.15s}
-.icon-btn:hover{background:rgba(239,68,68,0.2);color:var(--red)}
+.icon-btn:hover{background:color-mix(in srgb,var(--red) 16%, transparent);color:var(--red)}
 .drag-handle{color:var(--text3);cursor:grab;font-size:14px}
 .drag-handle:active{cursor:grabbing}
-.main-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.main-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .main-title{font-size:16px;font-weight:600}
 .header-actions{display:flex;gap:8px;align-items:center}
 .tabs{display:flex;gap:2px;background:var(--bg3);padding:4px;border-radius:var(--radius);border:1px solid var(--border)}
 .tab{padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);transition:all 0.15s;font-weight:500;border:none;background:transparent;font-family:var(--font)}
-.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
 .tab:hover:not(.active){color:var(--text)}
 .stats-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
 .stat-card{background:var(--bg2);padding:14px 16px;text-align:center}
@@ -109,22 +161,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .filters-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .filter-group{display:flex;align-items:center;gap:6px}
 .filter-label{font-size:11px;color:var(--text3);white-space:nowrap}
-.search-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:200px}
-.search-input:focus{outline:none;border-color:var(--accent)}
+.search-input{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:var(--radius);font-family:var(--font);font-size:12px;width:200px}
+.search-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
 .filter-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
 .quick-filter{display:flex;gap:4px}
 .qf-btn{padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:11px;cursor:pointer;font-family:var(--font);transition:all 0.15s;white-space:nowrap}
-.qf-btn.active{border-color:var(--accent);background:rgba(59,123,245,0.15);color:var(--accent)}
+.qf-btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%, var(--bg3));color:var(--accent)}
 .qf-btn:hover:not(.active){border-color:var(--border2);color:var(--text)}
 .table-container{overflow:auto;flex:1}
 .inv-table{width:100%;border-collapse:collapse;font-size:12px}
 .inv-table th{background:var(--bg3);color:var(--text3);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:10;cursor:pointer;user-select:none}
 .inv-table th:hover{color:var(--text2)}
 .inv-table th .sort-arrow{margin-right:4px;opacity:0.4;font-size:10px}
-.inv-table td{padding:9px 12px;border-bottom:1px solid rgba(42,58,85,0.5);vertical-align:middle}
-.inv-table tr:hover td{background:rgba(59,123,245,0.04)}
-.inv-table tr.row-critical td{background:rgba(239,68,68,0.03)}
-.inv-table tr.row-critical:hover td{background:rgba(239,68,68,0.07)}
+.inv-table td{padding:9px 12px;border-bottom:1px solid color-mix(in srgb,var(--border) 70%, transparent);vertical-align:middle;background:transparent}
+.inv-table tr:hover td{background:color-mix(in srgb,var(--accent) 4%, transparent)}
+.inv-table tr.row-critical td{background:color-mix(in srgb,var(--red) 4%, transparent)}
+.inv-table tr.row-critical:hover td{background:color-mix(in srgb,var(--red) 8%, transparent)}
 .col-code{font-family:var(--mono);color:var(--text2);font-size:11px}
 .col-name{font-weight:500;color:var(--text)}
 .col-num{font-family:var(--mono);text-align:center}
@@ -138,12 +190,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .zero-qty{color:var(--red);font-weight:700}
 .low-qty{color:var(--yellow)}
 .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
-.b-critical{background:rgba(239,68,68,0.15);color:#ff6b6b;border:1px solid rgba(239,68,68,0.3)}
-.b-low{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
-.b-normal{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.25)}
-.b-high{background:rgba(6,182,212,0.1);color:var(--cyan);border:1px solid rgba(6,182,212,0.25)}
-.b-new{background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
-.b-missing{background:rgba(239,68,68,0.08);color:#fca5a5;border:1px solid rgba(239,68,68,0.2);font-style:italic}
+.b-critical{background:color-mix(in srgb,var(--red) 12%, transparent);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 20%, transparent)}
+.b-low{background:color-mix(in srgb,var(--yellow) 12%, transparent);color:var(--yellow);border:1px solid color-mix(in srgb,var(--yellow) 20%, transparent)}
+.b-normal{background:color-mix(in srgb,var(--green) 10%, transparent);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 18%, transparent)}
+.b-high{background:color-mix(in srgb,var(--cyan) 10%, transparent);color:var(--cyan);border:1px solid color-mix(in srgb,var(--cyan) 18%, transparent)}
+.b-new{background:color-mix(in srgb,var(--purple) 12%, transparent);color:var(--purple);border:1px solid color-mix(in srgb,var(--purple) 20%, transparent)}
+.b-missing{background:color-mix(in srgb,var(--red) 7%, transparent);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 15%, transparent);font-style:italic}
 .sparkline{display:inline-flex;align-items:flex-end;gap:1px;height:20px;vertical-align:middle}
 .spark-bar{width:4px;border-radius:1px;background:var(--text3);transition:height 0.3s}
 .period-col-header{text-align:center;min-width:70px}
@@ -152,15 +204,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .tab-content{display:none}
 .tab-content.active{display:flex;flex-direction:column;height:calc(100vh - 120px)}
 .charts-area{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;overflow-y:auto}
-.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;box-shadow:var(--card-glow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .chart-card.full{grid-column:1/-1}
 .chart-title{font-size:13px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:6px}
 .chart-title-dot{width:8px;height:8px;border-radius:50%}
 .report-area{padding:24px;overflow-y:auto}
-.report-header{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;margin-bottom:16px}
+.report-header{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;margin-bottom:16px;box-shadow:var(--card-glow)}
 .report-title{font-size:18px;font-weight:700;margin-bottom:4px}
 .report-meta{font-size:11px;color:var(--text3);display:flex;gap:12px;flex-wrap:wrap}
-.report-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;margin-bottom:16px}
+.report-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;margin-bottom:16px;box-shadow:var(--card-glow)}
 .report-section-title{font-size:14px;font-weight:600;margin-bottom:14px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:10px;display:flex;align-items:center;gap:8px}
 .report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .report-stat{background:var(--bg3);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
@@ -168,7 +220,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .report-stat-lbl{font-size:11px;color:var(--text3);margin-top:4px}
 .mini-table{width:100%;border-collapse:collapse;font-size:11px}
 .mini-table th{color:var(--text3);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;padding:6px 10px;border-bottom:1px solid var(--border);text-align:right}
-.mini-table td{padding:7px 10px;border-bottom:1px solid rgba(42,58,85,0.3)}
+.mini-table td{padding:7px 10px;border-bottom:1px solid color-mix(in srgb,var(--border) 70%, transparent)}
 .mini-table tr:last-child td{border-bottom:none}
 .compare-panel{padding:16px;background:var(--bg3);border-bottom:1px solid var(--border)}
 .compare-label{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
@@ -176,7 +228,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .compare-selects select{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:var(--radius);font-family:var(--font);font-size:11px}
 .compare-vs{color:var(--text3);font-size:11px;font-weight:600}
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:60px;text-align:center;gap:12px}
-.empty-icon{font-size:48px;opacity:0.3}
+.empty-icon{font-size:48px;opacity:0.35}
 .empty-title{font-size:16px;font-weight:600;color:var(--text2)}
 .empty-sub{font-size:12px;color:var(--text3);max-width:300px;line-height:1.6}
 .period-item.dragging{opacity:0.5;border:2px dashed var(--accent)}
@@ -186,18 +238,18 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--text3)}
-.notif{position:fixed;bottom:20px;left:20px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;font-size:12px;color:var(--text);z-index:9999;animation:slideIn 0.2s ease;box-shadow:var(--shadow);max-width:300px}
+.notif{position:fixed;bottom:20px;left:20px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px;font-size:12px;color:var(--text);z-index:9999;animation:slideIn 0.2s ease;box-shadow:var(--shadow);max-width:300px;backdrop-filter:blur(16px)}
 @keyframes slideIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
-.notif.success{border-color:rgba(34,197,94,0.4);color:var(--green)}
-.notif.error{border-color:rgba(239,68,68,0.4);color:var(--red)}
+.notif.success{border-color:color-mix(in srgb,var(--green) 34%, transparent);color:var(--green)}
+.notif.error{border-color:color-mix(in srgb,var(--red) 34%, transparent);color:var(--red)}
 .mode-toggle{display:flex;gap:2px;background:var(--bg4);padding:3px;border-radius:var(--radius);border:1px solid var(--border)}
 .mode-btn{padding:5px 12px;border-radius:5px;border:none;background:transparent;color:var(--text3);font-size:11px;cursor:pointer;font-family:var(--font);transition:all 0.15s;font-weight:500}
-.mode-btn.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.mode-btn.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
 .formula-bar{background:var(--bg4);border-bottom:1px solid var(--border);padding:6px 24px;font-size:10px;color:var(--text3);font-family:var(--mono);display:flex;gap:12px}
 .formula-item{display:flex;align-items:center;gap:4px}
 .formula-dot{width:6px;height:6px;border-radius:50%}
 .alert-list{padding:16px;display:flex;flex-direction:column;gap:6px}
-.alert-item{background:var(--bg3);border:1px solid var(--border);border-right:3px solid;border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px}
+.alert-item{background:var(--bg3);border:1px solid var(--border);border-right:3px solid;border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px)}
 .alert-item.a-critical{border-right-color:var(--red)}
 .alert-item.a-low{border-right-color:var(--yellow)}
 .alert-item.a-new{border-right-color:var(--cyan)}
@@ -217,14 +269,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .toggle input{opacity:0;width:0;height:0}
 .toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--bg4);border:1px solid var(--border);border-radius:10px;transition:0.2s}
 .toggle-slider:before{content:'';position:absolute;height:14px;width:14px;right:2px;top:2px;background:var(--text3);border-radius:50%;transition:0.2s}
-.toggle input:checked + .toggle-slider{background:rgba(59,123,245,0.3);border-color:var(--accent)}
+.toggle input:checked + .toggle-slider{background:color-mix(in srgb,var(--accent) 28%, transparent);border-color:var(--accent)}
 .toggle input:checked + .toggle-slider:before{transform:translateX(-16px);background:var(--accent)}
-.threshold-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:var(--radius);font-family:var(--mono);font-size:12px;width:70px;text-align:center}
-@media print{.sidebar,.header-actions,.filters-bar,.tabs{display:none}.main{grid-column:1/-1}body{background:#fff;color:#000}.inv-table th{background:#f1f5f9;color:#374151}.inv-table td{border-bottom:1px solid #e5e7eb}}
-@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.stats-bar{grid-template-columns:repeat(3,1fr)}.charts-area{grid-template-columns:1fr}.report-grid{grid-template-columns:1fr 1fr}}
+.threshold-input{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:var(--radius);font-family:var(--mono);font-size:12px;width:70px;text-align:center}
+@media print{.sidebar,.header-actions,.filters-bar,.tabs,.theme-switcher{display:none}.main{grid-column:1/-1}body{background:#fff;color:#000}.inv-table th{background:#f1f5f9;color:#374151}.inv-table td{border-bottom:1px solid #e5e7eb}}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.stats-bar{grid-template-columns:repeat(3,1fr)}.charts-area{grid-template-columns:1fr}.report-grid{grid-template-columns:1fr 1fr}.theme-btn{min-width:unset}}
 </style>
 </head>
-<body>
+<body class="theme-light">
 <div class="tooltip" id="tooltip"></div>
 <div class="app">
 <div class="sidebar">
@@ -237,6 +289,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       </div>
     </div>
     <span class="version">v2.0 Pro</span>
+  </div>
+  <div class="sidebar-section">
+    <div class="section-label">🎨 الثيم</div>
+    <div class="theme-switcher">
+      <button class="theme-btn active" id="theme-light-btn" onclick="setTheme('light')">☀️ فاتح</button>
+      <button class="theme-btn" id="theme-dark-btn" onclick="setTheme('dark')">🌙 ليلي</button>
+      <button class="theme-btn" id="theme-glass-btn" onclick="setTheme('glass')">💎 زجاجي</button>
+    </div>
   </div>
   <div class="sidebar-section">
     <div class="section-label">📊 وضع المقارنة</div>
@@ -371,9 +431,11 @@ let CRIT_THRESHOLD = 5;
 let LOW_THRESHOLD = 20;
 let selectedFile = null;
 let dragSrcIdx = null;
+let currentTheme = 'light';
 const STORAGE_KEY = 'inv_comparison_v2_pro';
-function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({periods,mode,CRIT_THRESHOLD,LOW_THRESHOLD,ignoreZero:document.getElementById('ignoreZero')?.checked||false,groupByCode:document.getElementById('groupByCode')?.checked??true}))}
-function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!s)return;periods=Array.isArray(s.periods)?s.periods:[];mode=s.mode||'period';CRIT_THRESHOLD=s.CRIT_THRESHOLD||5;LOW_THRESHOLD=s.LOW_THRESHOLD||20;document.getElementById('critThreshold').value=CRIT_THRESHOLD;document.getElementById('lowThreshold').value=LOW_THRESHOLD;document.getElementById('ignoreZero').checked=!!s.ignoreZero;document.getElementById('groupByCode').checked=s.groupByCode!==false;}catch(e){}}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({periods,mode,CRIT_THRESHOLD,LOW_THRESHOLD,ignoreZero:document.getElementById('ignoreZero')?.checked||false,groupByCode:document.getElementById('groupByCode')?.checked??true,theme:currentTheme}))}
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!s)return;periods=Array.isArray(s.periods)?s.periods:[];mode=s.mode||'period';CRIT_THRESHOLD=s.CRIT_THRESHOLD||5;LOW_THRESHOLD=s.LOW_THRESHOLD||20;currentTheme=s.theme||'light';document.getElementById('critThreshold').value=CRIT_THRESHOLD;document.getElementById('lowThreshold').value=LOW_THRESHOLD;document.getElementById('ignoreZero').checked=!!s.ignoreZero;document.getElementById('groupByCode').checked=s.groupByCode!==false;}catch(e){currentTheme='light'}}
+function setTheme(theme){currentTheme=theme||'light';document.body.classList.remove('theme-light','theme-dark','theme-glass');document.body.classList.add('theme-'+currentTheme);document.querySelectorAll('.theme-btn').forEach(btn=>btn.classList.remove('active'));document.getElementById('theme-'+currentTheme+'-btn')?.classList.add('active');const meta=document.getElementById('themeColorMeta');if(meta){meta.setAttribute('content',currentTheme==='dark'?'#08101f':currentTheme==='glass'?'#eaf4ff':'#f8fafc')}saveState();if(currentData.length)updateCharts()}
 const uploadZone=document.getElementById('uploadZone');
 uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('dragover')});
 uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('dragover'));
@@ -387,8 +449,8 @@ document.getElementById('groupByCode').addEventListener('change',saveState);
 function handleFile(e){if(e.target.files[0]){selectedFile=e.target.files[0];document.getElementById('uploadStatus').textContent=`📁 ${e.target.files[0].name}`;}}
 function setMode(m){mode=m;document.getElementById('mode-period').classList.toggle('active',m==='period');document.getElementById('mode-warehouse').classList.toggle('active',m==='warehouse');document.getElementById('warehouseNameRow').style.display=m==='warehouse'?'flex':'none';document.getElementById('comparePanel').style.display=m==='warehouse'&&periods.length>=2?'flex':'none';document.getElementById('mode-hint').textContent=m==='period'?'رفع ملفات لفترات زمنية مختلفة لتتبع التغيرات':'رفع ملف لكل مخزن لمقارنة الكميات بينها';saveState();refreshTable()}
 async function uploadFile(){const name=document.getElementById('periodName').value.trim();const date=document.getElementById('periodDate').value;const warehouse=document.getElementById('warehouseName').value.trim();if(!name){notify('أدخل اسم الفترة / المخزن','error');return}if(!date){notify('اختر التاريخ','error');return}if(!selectedFile){notify('اختر ملف Excel أو CSV','error');return}const status=document.getElementById('uploadStatus');status.textContent='⏳ جاري التحليل...';try{const items=await parseFile(selectedFile);if(!items||Object.keys(items).length===0){notify('لم يتم العثور على بيانات صالحة في الملف','error');status.textContent='';return}const id=Date.now()+Math.random();periods.push({id,name,date,warehouse:mode==='warehouse'?(warehouse||name):null,items});if(mode==='period'){periods.sort((a,b)=>new Date(a.date)-new Date(b.date))}selectedFile=null;document.getElementById('fileInput').value='';document.getElementById('periodName').value='';document.getElementById('periodDate').value='';document.getElementById('warehouseName').value='';status.textContent=`✅ تم رفع ${Object.keys(items).length.toLocaleString()} صنف`;saveState();renderPeriodsList();refreshTable();updateCompareSelects();notify(`✅ تم رفع "${name}" - ${Object.keys(items).length.toLocaleString()} صنف`,'success')}catch(err){console.error(err);notify('خطأ في قراءة الملف: '+err.message,'error');status.textContent=''}}
-async function parseFile(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=(e)=>{try{let rows=[];if(file.name.toLowerCase().endsWith('.csv')){const text=new TextDecoder('utf-8').decode(e.target.result);rows=text.split(/\r?\n/).map(line=>line.split(','))}else{const data=new Uint8Array(e.target.result);const wb=XLSX.read(data,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''})}const fmt=document.getElementById('colFormat').value;let codeIdx,nameIdx,qtyIdx;if(fmt==='custom'){const toIdx=s=>(String(s||'A').toUpperCase().charCodeAt(0)-65);codeIdx=toIdx(document.getElementById('colCode').value||'A');nameIdx=toIdx(document.getElementById('colName').value||'B');qtyIdx=toIdx(document.getElementById('colQty').value||'C')}else{const map={'A-B-C':[0,1,2],'A-C-B':[0,2,1],'B-A-C':[1,0,2]};[codeIdx,nameIdx,qtyIdx]=map[fmt]}const ignoreZero=document.getElementById('ignoreZero').checked;const groupByCode=document.getElementById('groupByCode').checked;const items={};for(let i=1;i<rows.length;i++){const row=rows[i];if(!row||row.every(c=>c===''||c===null||c===undefined))continue;const code=String(row[codeIdx]||'').trim();if(!code)continue;const name=String(row[nameIdx]||'').trim()||code;const qty=parseFloat(String(row[qtyIdx]||'0').replace(/,/g,''))||0;if(ignoreZero&&qty===0)continue;if(groupByCode&&items[code])items[code].qty+=qty;else items[code]={name,qty}}resolve(items)}catch(err){reject(err)}};reader.onerror=reject;if(file.name.toLowerCase().endsWith('.csv'))reader.readAsArrayBuffer(file);else reader.readAsArrayBuffer(file)})}
-function renderPeriodsList(){const list=document.getElementById('periodsList');document.getElementById('periodsCount').textContent=periods.length;if(periods.length===0){list.innerHTML='<div style="text-align:center;padding:24px;color:var(--text3);font-size:11px;line-height:1.6">لم يتم رفع أي ملفات بعد<br>ارفع ملفين على الأقل للبدء</div>';return}list.innerHTML=periods.map((p,i)=>{const isBase=i===0;const isCurrent=i===periods.length-1;const count=Object.keys(p.items).length;const badge=mode==='period'?(isBase?'<span class="period-badge badge-base">أساس</span>':isCurrent?'<span class="period-badge badge-current">حالي</span>':''):`<span class="period-badge" style="background:rgba(6,182,212,0.15);color:var(--cyan);border:1px solid rgba(6,182,212,0.3)">${p.warehouse||'مخزن'}</span>`;return `<div class="period-item ${isBase&&mode==='period'?'base':''} ${isCurrent&&mode==='period'?'current':''}" draggable="true" ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(${i})" ondragleave="dragLeave(${i})" data-idx="${i}"><span class="drag-handle">⠿</span><div class="period-info"><div class="period-name">${escapeHtml(p.name)}</div><div class="period-meta">${p.date} • ${count.toLocaleString()} صنف</div><div style="margin-top:3px">${badge}</div></div><div class="period-actions"><button class="icon-btn" onclick="deletePeriod(${i})" title="حذف">✕</button></div></div>`}).join('')}
+async function parseFile(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=(e)=>{try{let rows=[];if(file.name.toLowerCase().endsWith('.csv')){const text=new TextDecoder('utf-8').decode(e.target.result);rows=text.split(/\r?\n/).map(line=>line.split(','))}else{const data=new Uint8Array(e.target.result);const wb=XLSX.read(data,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''})}const fmt=document.getElementById('colFormat').value;let codeIdx,nameIdx,qtyIdx;if(fmt==='custom'){const toIdx=s=>(String(s||'A').toUpperCase().charCodeAt(0)-65);codeIdx=toIdx(document.getElementById('colCode').value||'A');nameIdx=toIdx(document.getElementById('colName').value||'B');qtyIdx=toIdx(document.getElementById('colQty').value||'C')}else{const map={'A-B-C':[0,1,2],'A-C-B':[0,2,1],'B-A-C':[1,0,2]};[codeIdx,nameIdx,qtyIdx]=map[fmt]}const ignoreZero=document.getElementById('ignoreZero').checked;const groupByCode=document.getElementById('groupByCode').checked;const items={};for(let i=1;i<rows.length;i++){const row=rows[i];if(!row||row.every(c=>c===''||c===null||c===undefined))continue;const code=String(row[codeIdx]||'').trim();if(!code)continue;const name=String(row[nameIdx]||'').trim()||code;const qty=parseFloat(String(row[qtyIdx]||'0').replace(/,/g,''))||0;if(ignoreZero&&qty===0)continue;if(groupByCode&&items[code])items[code].qty+=qty;else items[code]={name,qty}}resolve(items)}catch(err){reject(err)}};reader.onerror=reject;reader.readAsArrayBuffer(file)})}
+function renderPeriodsList(){const list=document.getElementById('periodsList');document.getElementById('periodsCount').textContent=periods.length;if(periods.length===0){list.innerHTML='<div style="text-align:center;padding:24px;color:var(--text3);font-size:11px;line-height:1.6">لم يتم رفع أي ملفات بعد<br>ارفع ملفين على الأقل للبدء</div>';return}list.innerHTML=periods.map((p,i)=>{const isBase=i===0;const isCurrent=i===periods.length-1;const count=Object.keys(p.items).length;const badge=mode==='period'?(isBase?'<span class="period-badge badge-base">أساس</span>':isCurrent?'<span class="period-badge badge-current">حالي</span>':''):`<span class="period-badge" style="background:color-mix(in srgb,var(--cyan) 14%, transparent);color:var(--cyan);border:1px solid color-mix(in srgb,var(--cyan) 24%, transparent)">${p.warehouse||'مخزن'}</span>`;return `<div class="period-item ${isBase&&mode==='period'?'base':''} ${isCurrent&&mode==='period'?'current':''}" draggable="true" ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(${i})" ondragleave="dragLeave(${i})" data-idx="${i}"><span class="drag-handle">⠿</span><div class="period-info"><div class="period-name">${escapeHtml(p.name)}</div><div class="period-meta">${p.date} • ${count.toLocaleString()} صنف</div><div style="margin-top:3px">${badge}</div></div><div class="period-actions"><button class="icon-btn" onclick="deletePeriod(${i})" title="حذف">✕</button></div></div>`}).join('')}
 function deletePeriod(idx){periods.splice(idx,1);saveState();renderPeriodsList();refreshTable();updateCompareSelects();notify('تم حذف الفترة','success')}
 function clearAll(){if(!confirm('هل تريد حذف جميع الفترات؟'))return;periods=[];currentData=[];filteredData=[];saveState();renderPeriodsList();clearTable();updateCompareSelects();destroyCharts();notify('تم مسح جميع البيانات','success')}
 function dragStart(i){dragSrcIdx=i}function dragOver(e,i){e.preventDefault();document.querySelectorAll('.period-item')[i]?.classList.add('drag-over')}function dragLeave(i){document.querySelectorAll('.period-item')[i]?.classList.remove('drag-over')}function dragDrop(i){document.querySelectorAll('.period-item').forEach(el=>el.classList.remove('drag-over'));if(dragSrcIdx===null||dragSrcIdx===i)return;const moved=periods.splice(dragSrcIdx,1)[0];periods.splice(i,0,moved);dragSrcIdx=null;saveState();renderPeriodsList();refreshTable();updateCompareSelects()}
@@ -405,9 +467,10 @@ function setTrendFilter(f,btn){trendFilter=f;document.querySelectorAll('#trendFi
 function resetFilters(){document.getElementById('searchInput').value='';document.getElementById('qtyFilter').value='';statusFilter='all';trendFilter='all';document.querySelectorAll('#statusFilters .qf-btn').forEach((b,i)=>b.classList.toggle('active',i===0));document.querySelectorAll('#trendFilters .qf-btn').forEach((b,i)=>b.classList.toggle('active',i===0));applyFilters()}
 function clearTable(){document.getElementById('emptyState').style.display='flex';document.getElementById('mainTable').style.display='none';document.getElementById('formulaBar').style.display='none';document.getElementById('comparePanel').style.display='none';document.getElementById('mainTitle').textContent='نظام مقارنة المخزون';document.getElementById('mainSub').textContent='ارفع ملفين على الأقل للبدء';['total','dec','inc','stable','new','miss'].forEach(k=>document.getElementById('stat-'+k).textContent='—')}
 function updateStats(){const d=currentData;document.getElementById('stat-total').textContent=d.length.toLocaleString();document.getElementById('stat-dec').textContent=d.filter(r=>r.trend==='down').length.toLocaleString();document.getElementById('stat-inc').textContent=d.filter(r=>r.trend==='up').length.toLocaleString();document.getElementById('stat-stable').textContent=d.filter(r=>r.trend==='same').length.toLocaleString();document.getElementById('stat-new').textContent=d.filter(r=>r.trend==='new').length.toLocaleString();document.getElementById('stat-miss').textContent=d.filter(r=>r.trend==='missing').length.toLocaleString()}
+function getChartColors(){const css=getComputedStyle(document.body);return{accent:css.getPropertyValue('--accent').trim(),purple:css.getPropertyValue('--purple').trim(),red:css.getPropertyValue('--red').trim(),green:css.getPropertyValue('--green').trim(),yellow:css.getPropertyValue('--yellow').trim(),cyan:css.getPropertyValue('--cyan').trim(),text:css.getPropertyValue('--text').trim(),text2:css.getPropertyValue('--text2').trim(),grid:css.getPropertyValue('--border').trim(),card:css.getPropertyValue('--bg2').trim()}}
 function updateAlerts(){const critItems=currentData.filter(r=>r.status==='critical'&&r.currQty!==null);const missing=currentData.filter(r=>r.trend==='missing');const newItems=currentData.filter(r=>r.trend==='new');const bigDrop=currentData.filter(r=>r.pct!==null&&r.pct<=-50).sort((a,b)=>a.pct-b.pct).slice(0,10);const count=critItems.length+missing.length+bigDrop.length;const badge=document.getElementById('alertBadge');badge.textContent=count;badge.style.display=count>0?'inline':'none';document.getElementById('tab-alerts').style.color=count>0?'var(--red)':'';let html='';if(critItems.length>0){html+=`<div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:4px;padding:8px 0 4px">🚨 أصناف بكمية حرجة (${critItems.length})</div>`;critItems.slice(0,20).forEach(r=>{html+=`<div class="alert-item a-critical"><span class="alert-icon">🔴</span><span class="alert-text"><strong>${escapeHtml(r.name)}</strong><br><span style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</span></span><span class="alert-qty" style="color:var(--red)">${(r.currQty??0).toLocaleString()}</span></div>`})}if(missing.length>0){html+=`<div style="font-size:11px;font-weight:700;color:var(--yellow);margin:12px 0 4px">⚠️ أصناف مفقودة في الفترة الحالية (${missing.length})</div>`;missing.slice(0,20).forEach(r=>{html+=`<div class="alert-item a-low"><span class="alert-icon">⚠️</span><span class="alert-text"><strong>${escapeHtml(r.name)}</strong><br><span style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</span></span><span class="alert-qty" style="color:var(--yellow)">غائب</span></div>`})}if(bigDrop.length>0){html+=`<div style="font-size:11px;font-weight:700;color:var(--orange);margin:12px 0 4px">📉 انخفاض حاد ≥50% (${bigDrop.length})</div>`;bigDrop.forEach(r=>{html+=`<div class="alert-item a-critical"><span class="alert-icon">📉</span><span class="alert-text"><strong>${escapeHtml(r.name)}</strong><br><span style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</span></span><span class="alert-qty" style="color:var(--red)">${r.pct.toFixed(1)}%</span></div>`})}if(newItems.length>0){html+=`<div style="font-size:11px;font-weight:700;color:var(--cyan);margin:12px 0 4px">✨ أصناف جديدة (${newItems.length})</div>`;newItems.slice(0,10).forEach(r=>{html+=`<div class="alert-item a-new"><span class="alert-icon">✨</span><span class="alert-text"><strong>${escapeHtml(r.name)}</strong><br><span style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</span></span><span class="alert-qty" style="color:var(--cyan)">${(r.currQty??0).toLocaleString()}</span></div>`})}if(!html)html='<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">لا توجد تنبيهات</div><div class="empty-sub">جميع الأصناف في حالة طبيعية</div></div>';document.getElementById('alertsList').innerHTML=html}
 function destroyCharts(){Object.values(charts).forEach(c=>c?.destroy?.());charts={}}
-function updateCharts(){destroyCharts();const area=document.getElementById('chartsArea');if(!currentData.length){area.innerHTML='<div class="empty-state"><div class="empty-icon">📈</div><div class="empty-title">لا توجد بيانات كافية</div></div>';return}const statusCounts={critical:0,low:0,normal:0,high:0,new:0,missing:0};currentData.forEach(r=>statusCounts[r.status]++);const trendCounts={down:0,up:0,same:0,new:0,missing:0};currentData.forEach(r=>trendCounts[r.trend]++);const topDec=[...currentData].filter(r=>r.diff!==null&&r.diff<0).sort((a,b)=>a.diff-b.diff).slice(0,10);const topInc=[...currentData].filter(r=>r.diff!==null&&r.diff>0).sort((a,b)=>b.diff-a.diff).slice(0,10);const topCrit=[...currentData].filter(r=>r.status==='critical'&&r.currQty!==null).sort((a,b)=>(a.currQty??0)-(b.currQty??0)).slice(0,10);area.innerHTML=`<div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--accent)"></span>توزيع حالة الأصناف</div><div style="position:relative;height:220px"><canvas id="chartStatus"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--purple)"></span>اتجاهات التغيير</div><div style="position:relative;height:220px"><canvas id="chartTrend"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--red)"></span>أعلى 10 انخفاضاً</div><div style="position:relative;height:${Math.max(200,topDec.length*38+60)}px"><canvas id="chartDec"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--green)"></span>أعلى 10 ارتفاعاً</div><div style="position:relative;height:${Math.max(200,topInc.length*38+60)}px"><canvas id="chartInc"></canvas></div></div><div class="chart-card full"><div class="chart-title"><span class="chart-title-dot" style="background:var(--yellow)"></span>الأصناف الحرجة - الكميات الحالية</div><div style="position:relative;height:${Math.max(200,topCrit.length*38+60)}px"><canvas id="chartCrit"></canvas></div></div>`;setTimeout(()=>{charts.status=new Chart(document.getElementById('chartStatus'),{type:'doughnut',data:{labels:['حرج','منخفض','عادي','مرتفع','جديد','مفقود'],datasets:[{data:[statusCounts.critical,statusCounts.low,statusCounts.normal,statusCounts.high,statusCounts.new,statusCounts.missing],backgroundColor:['#ef4444','#f59e0b','#22c55e','#06b6d4','#a855f7','#64748b'],borderWidth:2,borderColor:'#111827'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#8fa3c0',font:{size:11},padding:10}}}}});charts.trend=new Chart(document.getElementById('chartTrend'),{type:'bar',data:{labels:['انخفض','ارتفع','ثابت','جديد','مفقود'],datasets:[{data:[trendCounts.down,trendCounts.up,trendCounts.same,trendCounts.new,trendCounts.missing],backgroundColor:['#ef4444','#22c55e','#64748b','#a855f7','#f59e0b'],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8fa3c0',font:{size:11}},grid:{color:'rgba(42,58,85,0.5)'}},y:{ticks:{color:'#8fa3c0',font:{size:11}},grid:{color:'rgba(42,58,85,0.5)'}}}}});if(topDec.length>0){charts.dec=new Chart(document.getElementById('chartDec'),{type:'bar',data:{labels:topDec.map(r=>r.name.length>15?r.name.substring(0,14)+'…':r.name),datasets:[{data:topDec.map(r=>Math.abs(r.diff)),backgroundColor:'#ef4444',borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8fa3c0',font:{size:11}},grid:{color:'rgba(42,58,85,0.5)'}},y:{ticks:{color:'#e8edf5',font:{size:11}},grid:{display:false}}}}})}if(topInc.length>0){charts.inc=new Chart(document.getElementById('chartInc'),{type:'bar',data:{labels:topInc.map(r=>r.name.length>15?r.name.substring(0,14)+'…':r.name),datasets:[{data:topInc.map(r=>r.diff),backgroundColor:'#22c55e',borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8fa3c0',font:{size:11}},grid:{color:'rgba(42,58,85,0.5)'}},y:{ticks:{color:'#e8edf5',font:{size:11}},grid:{display:false}}}}})}if(topCrit.length>0){charts.crit=new Chart(document.getElementById('chartCrit'),{type:'bar',data:{labels:topCrit.map(r=>r.name.length>20?r.name.substring(0,19)+'…':r.name),datasets:[{data:topCrit.map(r=>r.currQty??0),backgroundColor:'#f97316',borderRadius:4,borderWidth:0,label:'الكمية الحالية'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8fa3c0',font:{size:11}},grid:{color:'rgba(42,58,85,0.5)'}},y:{ticks:{color:'#e8edf5',font:{size:11}},grid:{display:false}}}}})}},100)}
+function updateCharts(){destroyCharts();const area=document.getElementById('chartsArea');if(!currentData.length){area.innerHTML='<div class="empty-state"><div class="empty-icon">📈</div><div class="empty-title">لا توجد بيانات كافية</div></div>';return}const palette=getChartColors();const statusCounts={critical:0,low:0,normal:0,high:0,new:0,missing:0};currentData.forEach(r=>statusCounts[r.status]++);const trendCounts={down:0,up:0,same:0,new:0,missing:0};currentData.forEach(r=>trendCounts[r.trend]++);const topDec=[...currentData].filter(r=>r.diff!==null&&r.diff<0).sort((a,b)=>a.diff-b.diff).slice(0,10);const topInc=[...currentData].filter(r=>r.diff!==null&&r.diff>0).sort((a,b)=>b.diff-a.diff).slice(0,10);const topCrit=[...currentData].filter(r=>r.status==='critical'&&r.currQty!==null).sort((a,b)=>(a.currQty??0)-(b.currQty??0)).slice(0,10);area.innerHTML=`<div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--accent)"></span>توزيع حالة الأصناف</div><div style="position:relative;height:220px"><canvas id="chartStatus"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--purple)"></span>اتجاهات التغيير</div><div style="position:relative;height:220px"><canvas id="chartTrend"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--red)"></span>أعلى 10 انخفاضاً</div><div style="position:relative;height:${Math.max(200,topDec.length*38+60)}px"><canvas id="chartDec"></canvas></div></div><div class="chart-card"><div class="chart-title"><span class="chart-title-dot" style="background:var(--green)"></span>أعلى 10 ارتفاعاً</div><div style="position:relative;height:${Math.max(200,topInc.length*38+60)}px"><canvas id="chartInc"></canvas></div></div><div class="chart-card full"><div class="chart-title"><span class="chart-title-dot" style="background:var(--yellow)"></span>الأصناف الحرجة - الكميات الحالية</div><div style="position:relative;height:${Math.max(200,topCrit.length*38+60)}px"><canvas id="chartCrit"></canvas></div></div>`;setTimeout(()=>{charts.status=new Chart(document.getElementById('chartStatus'),{type:'doughnut',data:{labels:['حرج','منخفض','عادي','مرتفع','جديد','مفقود'],datasets:[{data:[statusCounts.critical,statusCounts.low,statusCounts.normal,statusCounts.high,statusCounts.new,statusCounts.missing],backgroundColor:[palette.red,palette.yellow,palette.green,palette.cyan,palette.purple,palette.text3],borderWidth:2,borderColor:palette.card}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:palette.text2,font:{size:11},padding:10}}}}});charts.trend=new Chart(document.getElementById('chartTrend'),{type:'bar',data:{labels:['انخفض','ارتفع','ثابت','جديد','مفقود'],datasets:[{data:[trendCounts.down,trendCounts.up,trendCounts.same,trendCounts.new,trendCounts.missing],backgroundColor:[palette.red,palette.green,palette.text3,palette.purple,palette.yellow],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:palette.text2,font:{size:11}},grid:{color:palette.grid}},y:{ticks:{color:palette.text2,font:{size:11}},grid:{color:palette.grid}}}}});if(topDec.length>0){charts.dec=new Chart(document.getElementById('chartDec'),{type:'bar',data:{labels:topDec.map(r=>r.name.length>15?r.name.substring(0,14)+'…':r.name),datasets:[{data:topDec.map(r=>Math.abs(r.diff)),backgroundColor:palette.red,borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:palette.text2,font:{size:11}},grid:{color:palette.grid}},y:{ticks:{color:palette.text,font:{size:11}},grid:{display:false}}}}})}if(topInc.length>0){charts.inc=new Chart(document.getElementById('chartInc'),{type:'bar',data:{labels:topInc.map(r=>r.name.length>15?r.name.substring(0,14)+'…':r.name),datasets:[{data:topInc.map(r=>r.diff),backgroundColor:palette.green,borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:palette.text2,font:{size:11}},grid:{color:palette.grid}},y:{ticks:{color:palette.text,font:{size:11}},grid:{display:false}}}}})}if(topCrit.length>0){charts.crit=new Chart(document.getElementById('chartCrit'),{type:'bar',data:{labels:topCrit.map(r=>r.name.length>20?r.name.substring(0,19)+'…':r.name),datasets:[{data:topCrit.map(r=>r.currQty??0),backgroundColor:palette.orange,borderRadius:4,borderWidth:0,label:'الكمية الحالية'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:palette.text2,font:{size:11}},grid:{color:palette.grid}},y:{ticks:{color:palette.text,font:{size:11}},grid:{display:false}}}}})}},100)}
 function updateReport(){if(!currentData.length){document.getElementById('reportArea').innerHTML='<div class="empty-state"><div class="empty-icon">📄</div><div class="empty-title">لا يوجد تقرير</div></div>';return}const total=currentData.length;const dec=currentData.filter(r=>r.trend==='down');const inc=currentData.filter(r=>r.trend==='up');const stable=currentData.filter(r=>r.trend==='same');const missing=currentData.filter(r=>r.trend==='missing');const newI=currentData.filter(r=>r.trend==='new');const critical=currentData.filter(r=>r.status==='critical');const totalBaseQty=currentData.reduce((s,r)=>s+(r.baseQty??0),0);const totalCurrQty=currentData.reduce((s,r)=>s+(r.currQty??0),0);const totalDiff=totalCurrQty-totalBaseQty;const biggestDrop=[...dec].sort((a,b)=>a.pct-b.pct).slice(0,5);const biggestInc=[...inc].sort((a,b)=>b.pct-a.pct).slice(0,5);const mostCritical=[...critical].sort((a,b)=>(a.currQty??0)-(b.currQty??0)).slice(0,10);const biggestDiffDec=[...dec].sort((a,b)=>a.diff-b.diff).slice(0,10);const now=new Date().toLocaleDateString('ar',{year:'numeric',month:'long',day:'numeric'});document.getElementById('reportArea').innerHTML=`<div class="report-header"><div class="report-title">📊 تقرير مقارنة المخزون الشامل</div><div class="report-meta"><span>📅 تاريخ التقرير: ${now}</span><span>📂 عدد الفترات: ${periods.length}</span><span>📦 إجمالي الأصناف: ${total.toLocaleString()}</span><span>🏷️ الفترة الأولى: ${escapeHtml(periods[0]?.name||'')}</span><span>🏷️ الفترة الأخيرة: ${escapeHtml(periods[periods.length-1]?.name||'')}</span></div></div><div class="report-section"><div class="report-section-title">📈 ملخص تنفيذي</div><div class="report-grid"><div class="report-stat"><div class="report-stat-val" style="color:var(--text)">${total.toLocaleString()}</div><div class="report-stat-lbl">إجمالي الأصناف المحللة</div></div><div class="report-stat"><div class="report-stat-val" style="color:${totalDiff>=0?'var(--green)':'var(--red)'}">${totalDiff>=0?'+':''}${totalDiff.toLocaleString()}</div><div class="report-stat-lbl">صافي التغيير في المخزون</div></div><div class="report-stat"><div class="report-stat-val" style="color:var(--red)">${critical.length.toLocaleString()}</div><div class="report-stat-lbl">أصناف في الوضع الحرج</div></div><div class="report-stat"><div class="report-stat-val" style="color:var(--yellow)">${missing.length.toLocaleString()}</div><div class="report-stat-lbl">أصناف مفقودة</div></div><div class="report-stat"><div class="report-stat-val" style="color:var(--cyan)">${newI.length.toLocaleString()}</div><div class="report-stat-lbl">أصناف جديدة</div></div><div class="report-stat"><div class="report-stat-val" style="color:var(--text2)">${totalCurrQty.toLocaleString()}</div><div class="report-stat-lbl">إجمالي الكمية الحالية</div></div></div><div style="background:var(--bg3);border-radius:var(--radius);padding:14px;border:1px solid var(--border)"><div style="font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:600">توزيع الأصناف حسب الاتجاه</div>${[{label:'انخفض',val:dec.length,color:'var(--red)'},{label:'ارتفع',val:inc.length,color:'var(--green)'},{label:'ثابت',val:stable.length,color:'var(--text3)'},{label:'جديد',val:newI.length,color:'var(--cyan)'},{label:'مفقود',val:missing.length,color:'var(--yellow)'}].map(s=>`<div class="progress-row"><div class="progress-label">${s.label} (${s.val.toLocaleString()})</div><div class="progress-track"><div class="progress-fill" style="width:${total>0?(s.val/total*100).toFixed(1):0}%;background:${s.color}"></div></div><div class="progress-val">${total>0?(s.val/total*100).toFixed(1):0}%</div></div>`).join('')}</div></div>${critical.length>0?`<div class="report-section"><div class="report-section-title" style="color:var(--red)">🚨 الأصناف الحرجة - تحتاج إجراء فوري</div><table class="mini-table"><tr><th>الكود</th><th>الصنف</th><th>الكمية الحالية</th><th>الكمية السابقة</th><th>الفرق</th><th>التغيير%</th></tr>${mostCritical.map(r=>`<tr><td style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</td><td style="font-weight:500">${escapeHtml(r.name)}</td><td style="font-family:var(--mono);color:${(r.currQty??0)===0?'var(--red)':'var(--yellow)'};font-weight:700">${(r.currQty??0).toLocaleString()}</td><td style="font-family:var(--mono)">${r.baseQty!==null?r.baseQty.toLocaleString():'—'}</td><td style="font-family:var(--mono);color:${r.diff<0?'var(--red)':'var(--green)'}">${r.diff!==null?(r.diff>0?'+':'')+r.diff.toLocaleString():'—'}</td><td style="font-family:var(--mono);color:${r.pct<0?'var(--red)':'var(--green)'}">${r.pct!==null?r.pct.toFixed(1)+'%':'—'}</td></tr>`).join('')}</table></div>`:''}${biggestDrop.length>0?`<div class="report-section"><div class="report-section-title" style="color:var(--orange)">📉 أكبر الانخفاضات النسبية</div><table class="mini-table"><tr><th>الكود</th><th>الصنف</th><th>من</th><th>إلى</th><th>الفرق</th><th>التغيير%</th></tr>${biggestDrop.map(r=>`<tr><td style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</td><td style="font-weight:500">${escapeHtml(r.name)}</td><td style="font-family:var(--mono)">${r.baseQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--red)">${r.currQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--red)">${r.diff?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--red);font-weight:700">${r.pct?.toFixed(1)??'—'}%</td></tr>`).join('')}</table></div>`:''}${biggestDiffDec.length>0?`<div class="report-section"><div class="report-section-title" style="color:var(--red)">⬇️ أكبر الانخفاضات بالكمية الفعلية</div><table class="mini-table"><tr><th>الكود</th><th>الصنف</th><th>الكمية السابقة</th><th>الكمية الحالية</th><th>الفرق</th></tr>${biggestDiffDec.map(r=>`<tr><td style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</td><td style="font-weight:500">${escapeHtml(r.name)}</td><td style="font-family:var(--mono)">${r.baseQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--red)">${r.currQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--red);font-weight:700">${r.diff?.toLocaleString()??'—'}</td></tr>`).join('')}</table></div>`:''}${biggestInc.length>0?`<div class="report-section"><div class="report-section-title" style="color:var(--green)">📈 أكبر الارتفاعات النسبية</div><table class="mini-table"><tr><th>الكود</th><th>الصنف</th><th>من</th><th>إلى</th><th>الفرق</th><th>التغيير%</th></tr>${biggestInc.map(r=>`<tr><td style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</td><td style="font-weight:500">${escapeHtml(r.name)}</td><td style="font-family:var(--mono)">${r.baseQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--green)">${r.currQty?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--green)">+${r.diff?.toLocaleString()??'—'}</td><td style="font-family:var(--mono);color:var(--green);font-weight:700">+${r.pct?.toFixed(1)??'—'}%</td></tr>`).join('')}</table></div>`:''}${missing.length>0?`<div class="report-section"><div class="report-section-title" style="color:var(--yellow)">⚠️ أصناف موجودة في الأساس وغائبة الآن</div><table class="mini-table"><tr><th>الكود</th><th>الصنف</th><th>الكمية في الأساس</th></tr>${missing.slice(0,20).map(r=>`<tr><td style="font-family:var(--mono);color:var(--text3)">${escapeHtml(r.code)}</td><td style="font-weight:500">${escapeHtml(r.name)}</td><td style="font-family:var(--mono);color:var(--yellow)">${r.baseQty?.toLocaleString()??'—'}</td></tr>`).join('')}${missing.length>20?`<tr><td colspan="3" style="text-align:center;color:var(--text3);padding:8px">... و${(missing.length-20).toLocaleString()} صنف آخر</td></tr>`:''}</table></div>`:''}<div class="report-section" style="border-color:var(--border2);background:var(--bg3)"><div class="report-section-title">📝 ملاحظات ختامية</div><div style="font-size:12px;color:var(--text2);line-height:2">• إجمالي المخزون <span style="color:${totalDiff>=0?'var(--green)':'var(--red)'};font-weight:600">${totalDiff>=0?'زاد':'انخفض'} بمقدار ${Math.abs(totalDiff).toLocaleString()} وحدة</span> بين الفترتين<br>• نسبة الأصناف الحرجة: <span style="color:var(--red);font-weight:600">${total>0?(critical.length/total*100).toFixed(1):0}%</span> من إجمالي الأصناف<br>• عدد الأصناف المنقطعة (مفقودة): <span style="color:var(--yellow);font-weight:600">${missing.length.toLocaleString()} صنف</span><br>• عدد الأصناف المضافة حديثاً: <span style="color:var(--cyan);font-weight:600">${newI.length.toLocaleString()} صنف</span><br>• يُنصح بمراجعة الأصناف الحرجة فورياً وإعادة الطلب لما هو بكمية صفر</div></div>`}
 function exportExcel(){if(!currentData.length){notify('لا توجد بيانات للتصدير','error');return}const isMulti=mode==='period'&&periods.length>2;const headers=['الكود','اسم الصنف'];if(isMulti)periods.forEach(p=>headers.push(p.name+' ('+p.date+')'));else{headers.push(periods[0]?.name||'الأساس',(mode==='warehouse'?(periods.find(p=>p.id==document.getElementById('compareB')?.value)?.name||periods[1]?.name):periods[periods.length-1]?.name)||'الحالي','الفرق','التغيير%')}headers.push('الحالة','الاتجاه');const rows=filteredData.map(r=>{const base=[r.code,r.name];if(isMulti)r.spark.forEach(v=>base.push(v??''));else base.push(r.baseQty??'',r.currQty??'',r.diff??'',r.pct!==null?r.pct.toFixed(2)+'%':'');const statusMap={critical:'حرج',low:'منخفض',normal:'عادي',high:'مرتفع',new:'جديد',missing:'مفقود'};const trendMap={down:'انخفاض',up:'ارتفاع',same:'ثابت',new:'جديد',missing:'مفقود'};base.push(statusMap[r.status]||'',trendMap[r.trend]||'');return base});const ws=XLSX.utils.aoa_to_sheet([headers,...rows]);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'مقارنة المخزون');XLSX.writeFile(wb,`تقرير_مخزون_${new Date().toISOString().slice(0,10)}.xlsx`);notify('✅ تم تصدير ملف Excel','success')}
 function exportCSV(){if(!currentData.length){notify('لا توجد بيانات للتصدير','error');return}const isMulti=mode==='period'&&periods.length>2;const headers=['الكود','اسم الصنف'];if(isMulti)periods.forEach(p=>headers.push(p.name));else headers.push('الأساس','الحالي','الفرق','التغيير%');headers.push('الحالة','الاتجاه');const rows=[headers,...filteredData.map(r=>{const base=[r.code,r.name];if(isMulti)r.spark.forEach(v=>base.push(v??''));else base.push(r.baseQty??'',r.currQty??'',r.diff??'',r.pct!==null?r.pct.toFixed(2):'');base.push(r.status,r.trend);return base})];const csv='\uFEFF'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`تقرير_مخزون_${new Date().toISOString().slice(0,10)}.csv`;a.click();notify('✅ تم تصدير CSV','success')}
@@ -416,7 +479,7 @@ function updateCompareSelects(){const selA=document.getElementById('compareA');c
 function swapCompare(){const a=document.getElementById('compareA'),b=document.getElementById('compareB');const t=a.value;a.value=b.value;b.value=t;refreshTable()}
 function notify(msg,type=''){const el=document.createElement('div');el.className='notif '+type;el.textContent=msg;document.body.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity 0.3s';setTimeout(()=>el.remove(),300)},2500)}
 function escapeHtml(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
-document.getElementById('periodDate').valueAsDate=new Date();loadState();setMode(mode);renderPeriodsList();updateCompareSelects();refreshTable();
+document.getElementById('periodDate').valueAsDate=new Date();loadState();setTheme(currentTheme||'light');setMode(mode);renderPeriodsList();updateCompareSelects();refreshTable();
 </script>
 </body>
 </html>
